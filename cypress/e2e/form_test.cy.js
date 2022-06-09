@@ -33,9 +33,10 @@ describe('Tests Valid User Input', () => {
   data.forEach(item => {
     console.log(item)
     it(`Tests Data for ${item.first_name} ${item.last_name}`, () => {
+      cy.reload(true)
       cy.get('input[id="formGridFirstName"]').type(item.first_name);
       cy.get('input[id="formGridLastName"]').type(item.last_name);
-      cy.get('input[id="formGridAge"]').type(item.age);
+      cy.get('input[name="age"]').type(item.age);
       cy.get('input[id="formGridEmail"]').type(item.email);
       cy.get('input[id="formGridPhone"]').type(item.phone_number);
 
