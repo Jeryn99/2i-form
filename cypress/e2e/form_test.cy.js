@@ -8,6 +8,7 @@ describe('Navigate to Web Application', () => {
   })
 })
 
+
 describe('Tests Valid User Input', () => {
 
   data.forEach(user => {
@@ -46,6 +47,23 @@ describe('Tests Valid User Input', () => {
 describe('Tests Invalid Data reactions', () => {
 
 
+  it(`Populates Data for ${invalidUser.first_name} ${invalidUser.last_name}`, () => {
+    cy.get('input[id="formGridFirstName"]').type(invalidUser.first_name).should('have.value', invalidUser.first_name);
+    cy.get('input[id="formGridLastName"]').type(invalidUser.last_name).should('have.value', invalidUser.last_name);
+  });
 
+  it(`Tests invalid age for ${invalidUser.first_name} ${invalidUser.last_name}`, () => {
+    cy.get('input[id="formGridAge"]').clear().type(invalidUser.invalid_age).should('have.value', invalidUser.invalid_age);
+    cy.get('button[name="submit"]').click()
+    cy.contains("Invalid age! (18 - 100)");
+    cy.get('input[id="formGridAge"]').clear().type(invalidUser.valid_age).should('have.value', invalidUser.valid_age);
+  });
+
+  it(`Tests invalid email for ${invalidUser.first_name} ${invalidUser.last_name}`, () => {
+    cy.get('input[id="formGridEmail"]').clear().type(invalidUser.invalid_email).should('have.value', invalidUser.invalid_email);
+    cy.get('button[name="submit"]').click()
+    cy.contains("Please enter a valid email address!");
+    cy.get('input[id="formGridEmail"]').clear().type(invalidUser.valid_email).should('have.value', invalidUser.valid_email);
+  });
 
 });
