@@ -1,0 +1,14 @@
+{
+    "first_name": "Steven",
+    "last_name": "James",
+    "invalid_email": "stevenjamesgooglemail.com",
+    "valid_email": "stevenjames@googlemail.com",
+    "invalid_age": 17,
+    "valid_age": 19,
+    "valid_address": "1, Glasgow Road, Edinburgh, EH56 4RE",
+    "invalid_address": "1, Glasgow Road, Edinburgh, MISSING",
+    "car": "Ford Focus ST",
+    "language": "Welsh",
+    "phone_number": 114575643,
+    "allow_contact": "Yes"
+  }
