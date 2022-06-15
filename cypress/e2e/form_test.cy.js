@@ -47,17 +47,5 @@ describe('Tests Invalid Data reactions', () => {
 
 
 
-  it(`Populates Data for ${invalidUser.first_name} ${invalidUser.last_name}`, () => {
-    cy.get('input[id="formGridFirstName"]').type(invalidUser.first_name).should('have.value', invalidUser.first_name);
-    cy.get('input[id="formGridLastName"]').type(invalidUser.last_name).should('have.value', invalidUser.last_name);
-  });
-
-  it(`Tests invalid age for ${invalidUser.first_name} ${invalidUser.last_name}`, () => {
-    cy.get('input[id="formGridAge"]').clear().type(invalidUser.invalid_age).should('have.value', invalidUser.invalid_age);
-    cy.get('button[name="submit"]').click()
-    cy.contains("Please check your inputs for errors.");
-    cy.get('input[id="formGridAge"]').clear().type(invalidUser.valid_age).should('have.value', invalidUser.valid_age);
-  });
-
 
 });

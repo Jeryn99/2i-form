@@ -5,7 +5,9 @@ import vans from './data/vans.json';
 import languages from './data/languages.json';
 
 import { useState } from 'react';
-import { Button, Row, Col, Form, Modal, Alert, Toast , ToastContainer} from 'react-bootstrap';
+import { Button, Row, Col, Form, Modal, Alert } from 'react-bootstrap';
+
+import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 const carJson = JSON.parse(JSON.stringify(cars));
 const vanJson = JSON.parse(JSON.stringify(vans));
@@ -22,6 +24,11 @@ function jsonToOptions(json) {
 
 function App() {
 
+
+  // Application 
+  const [darkMode, setDarkMode] = useState(true);
+
+
   // Modal
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
@@ -36,18 +43,34 @@ function App() {
   const [county, setCounty] = useState('');
   const [postcode, setPostcode] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [useCar, setUsesCar] = useState(null);
+  const [useCar, setUsesCar] = useState(true);
   const [vehicleModel, setVehicleModel] = useState('');
   const [language, setLanguage] = useState('');
 
-  // Error Handling
-  const [showError, setShow] = useState(false);
+
+  // Form Validation
+  const [validated, setValidated] = useState(false);
+
 
   function onHandleFormSubmit(e) {
-    e.preventDefault();
-    handleShow();
-    e.target.reset();
+
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    console.log(form.checkValidity());
+
+    setValidated(true)
+
+    if (form.checkValidity()) {
+      handleShow();
+      e.preventDefault();
+    }
+
   }
+
 
   function closeAndClearData() {
     setFirstName("");
@@ -62,42 +85,42 @@ function App() {
     setVehicleModel("");
     setLanguage("");
     handleClose();
+
+    window.location.reload(false);
+
+
   }
 
   return (
 
-    <div className="App">
+    <div className={darkMode ? "App_DarkMode" : "App_LightMode"}>
 
+      <BootstrapSwitchButton onlabel="Dark Mode" width={100} offlabel="Light Mode" onstyle="dark" offstyle="secondary" checked={darkMode} onChange={(checked) => { setDarkMode(checked); }} size="xs" />
 
-      <Alert variant="danger" show={showError} onClose={() => setShow(false)}>
-        <Alert.Heading>Invalid Input Detected!</Alert.Heading>
-        {
-          <p>Please check your inputs for errors.</p>
-        }
-      </Alert>
       <h1>Registration</h1>
 
-      <Form onSubmit={onHandleFormSubmit}>
+      <Form noValidate validated={validated} onSubmit={onHandleFormSubmit}>
 
         <Row className="mb-3">
-
 
           <Form.Group as={Col} controlId="formGridFirstName">
             <Form.Label>First name</Form.Label>
             <Form.Control placeholder="John" value={firstName} onChange={e => { setFirstName(e.target.value) }} />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridLastName">
             <Form.Label>Last name</Form.Label>
             <Form.Control placeholder="Doe" value={lastName} onChange={e => { setLastName(e.target.value) }} />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridAge">
             <Form.Label>Age</Form.Label>
             <Form.Control type="number" placeholder="22" min="18" max="100" value={age} onChange={e => {
-              setShow(e.target.value < 18 || e.target.value > 100);
               setAge(e.target.value)
             }} />
+            <Form.Control.Feedback type="invalid"> Invalid age! (18 - 100)</Form.Control.Feedback>
           </Form.Group>
         </Row>
 
@@ -106,12 +129,11 @@ function App() {
 
           <Form.Group as={Col} controlId="formGridEmail">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="schools@edinburghcollege.ac.uk" title="Please give a valid email address" value={email} onChange={e => {
-              setEmail(e.target.value);
-            }} />
+            <Form.Control type="email" placeholder="schools@edinburghcollege.ac.uk" title="Please give a valid email address" value={email} onChange={e => { setEmail(e.target.value); }} />
             <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text>
+            <Form.Control.Feedback type="invalid"> Please enter a valid email address!</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridLanguage" value={language} onChange={e => { setLanguage(e.target.value) }}>
@@ -131,27 +153,31 @@ function App() {
         <Row className="mb-6">
           <Form.Group controlId="formGridAddress" value={addressLine} onChange={e => { setAddressLine(e.target.value) }}>
             <Form.Label>Address</Form.Label>
-            <Form.Control placeholder="46 Dalhousie Road" />
+            <Form.Control required placeholder="46 Dalhousie Road" />
             <Form.Text className="text-muted">
               First line of your address
             </Form.Text>
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group controlId="formGridAddress2" value={county} onChange={e => { setCounty(e.target.value) }}>
             <Form.Label>County</Form.Label>
-            <Form.Control placeholder="Midlothian" />
+            <Form.Control required placeholder="Midlothian" />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
         </Row>
 
         <Row className="mb-6">
           <Form.Group as={Col} controlId="formGridPostcode" value={postcode} onChange={e => { setPostcode(e.target.value) }}>
             <Form.Label>Postcode</Form.Label>
-            <Form.Control placeholder="EH22 3FR" title="Please enter a valid UK postcode" pattern="([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})" />
+            <Form.Control required placeholder="EH22 3FR" title="Please enter a valid UK postcode" pattern="([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})" />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridPhone" value={phoneNumber} onChange={e => { setPhoneNumber(e.target.value) }}>
             <Form.Label>Phone Number</Form.Label>
-            <Form.Control placeholder="0131 297 9000" />
+            <Form.Control required placeholder="0131 297 9000" />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
 
         </Row>
