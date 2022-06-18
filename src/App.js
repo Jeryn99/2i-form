@@ -5,7 +5,7 @@ import vans from './data/vans.json';
 import languages from './data/languages.json';
 
 import { useState } from 'react';
-import { Button, Row, Col, Form, Modal, Alert } from 'react-bootstrap';
+import { Button, Row, Col, Form, Modal } from 'react-bootstrap';
 
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
@@ -157,13 +157,13 @@ function App() {
             <Form.Text className="text-muted">
               First line of your address
             </Form.Text>
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid"> Please provide the first line of your address!</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group controlId="formGridAddress2" value={county} onChange={e => { setCounty(e.target.value) }}>
             <Form.Label>County</Form.Label>
             <Form.Control required placeholder="Midlothian" />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid"> Please enter your county!</Form.Control.Feedback>
           </Form.Group>
         </Row>
 
@@ -171,13 +171,13 @@ function App() {
           <Form.Group as={Col} controlId="formGridPostcode" value={postcode} onChange={e => { setPostcode(e.target.value) }}>
             <Form.Label>Postcode</Form.Label>
             <Form.Control required placeholder="EH22 3FR" title="Please enter a valid UK postcode" pattern="([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})" />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid"> Please enter a valid postcode!</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridPhone" value={phoneNumber} onChange={e => { setPhoneNumber(e.target.value) }}>
             <Form.Label>Phone Number</Form.Label>
             <Form.Control required placeholder="0131 297 9000" />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid"> Please enter a valid phone number!</Form.Control.Feedback>
           </Form.Group>
 
         </Row>
