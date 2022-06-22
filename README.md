@@ -1,3 +1,14 @@
+## Initial Setup
+
+- Download the application via the .zip download or via git (This is more reccomended)
+- If you downloaded the zip and did not use git, extract the zip to a empty folder
+- In Visual Studio code, click File > Open Folder and select the root of folder you created
+- Once opened, click Terminal at the top of the program and then click New Terminal
+- Once the terminal has been created, run the follwing series of commands
+- `npm install`
+- `npm start`
+- This will now open [http://localhost:3000](http://localhost:3000) in your browser
+- After this, you should be able to run any of the Available Scripts
 
 ## Available Scripts
 
